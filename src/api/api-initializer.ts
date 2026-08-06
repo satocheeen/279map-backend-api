@@ -1,10 +1,9 @@
 import { Request, Response, Express } from 'express';
 import { Logger } from "log4js";
-import { OdbaGetImageUrlAPI, OdbaGetImageUrlParam, OdbaGetLinkableContentsAPI, OdbaGetLinkableContentsResult, OdbaGetUncachedDataAPI, OdbaLinkDataAPI, OdbaLinkDataParam, OdbaRemoveDataAPI, OdbaRemoveDataParam, OdbaUnlinkDataAPI, OdbaUnlinkDataParam, OdbaUpdateDataAPI, OdbaUpdateDataParam } from "./dba-api-interface";
+import { GetImageUrlApi, GetImageUrlRequest, GetLinkableContentsApi, GetLinkableContentsResponse, GetUncachedDataApi, LinkDataApi, LinkDataRequest, RegistDataApi, RegistDataRequest, RemoveDataApi, RemoveDataRequest, UnlinkDataApi, UnlinkDataRequest, UpdateDataApi, UpdateDataRequest } from '../contract';
 import OdbaInterface from "./OdbaInterface";
 import { APIDefine, CurrentMap } from "../types";
 import { DataId } from '../types-common/common-types';
-import { RegistDataApi, RegistDataRequest } from '../contract/regist-data';
 
 type OdbaAPIFuncParam<PARAM> = {
     param: PARAM;
@@ -25,20 +24,20 @@ export function initializeOdba(app: Express, odba: OdbaInterface, logger: Logger
             }
         },
         {
-            define: OdbaUpdateDataAPI,
-            func: async(param: OdbaAPIFuncParam<OdbaUpdateDataParam>): Promise<boolean> => {
+            define: UpdateDataApi,
+            func: async(param: OdbaAPIFuncParam<UpdateDataRequest>): Promise<boolean> => {
                 return await odba.updateData(param.param);
             }
         },
         {
-            define: OdbaRemoveDataAPI,
-            func: async(param: OdbaAPIFuncParam<OdbaRemoveDataParam>): Promise<boolean> => {
+            define: RemoveDataApi,
+            func: async(param: OdbaAPIFuncParam<RemoveDataRequest>): Promise<boolean> => {
                 return await odba.removeData(param.param);
             }
         },
         {
-            define: OdbaUnlinkDataAPI,
-            func: async(param: OdbaAPIFuncParam<OdbaUnlinkDataParam>): Promise<void> => {
+            define: UnlinkDataApi,
+            func: async(param: OdbaAPIFuncParam<UnlinkDataRequest>): Promise<void> => {
                 await odba.unlinkData({
                     currentMap: param.param.currentMap, 
                     parent: param.param.parent,
@@ -48,25 +47,25 @@ export function initializeOdba(app: Express, odba: OdbaInterface, logger: Logger
             }
         },
         {
-            define: OdbaGetUncachedDataAPI,
+            define: GetUncachedDataApi,
             func: odba.getUncachedData,
         },
         {
-            define: OdbaLinkDataAPI,
-            func: async(param: OdbaAPIFuncParam<OdbaLinkDataParam>): Promise<void> => {
+            define: LinkDataApi,
+            func: async(param: OdbaAPIFuncParam<LinkDataRequest>): Promise<void> => {
                 await odba.linkData(param.param);
             }
         },
         {
-            define: OdbaGetImageUrlAPI,
-            func: async(param: OdbaAPIFuncParam<OdbaGetImageUrlParam>): Promise<string|undefined> => {
+            define: GetImageUrlApi,
+            func: async(param: OdbaAPIFuncParam<GetImageUrlRequest>): Promise<string|undefined> => {
                 return await odba.getImageUrl(param.param);
 
             }
         },
         {
-            define: OdbaGetLinkableContentsAPI,
-            func: async(param: OdbaAPIFuncParam<{currentMap: CurrentMap}>): Promise<OdbaGetLinkableContentsResult> => {
+            define: GetLinkableContentsApi,
+            func: async(param: OdbaAPIFuncParam<{currentMap: CurrentMap}>): Promise<GetLinkableContentsResponse> => {
                 return await odba.getLinkableContents(param.param.currentMap);
             },
         },

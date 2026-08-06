@@ -1,119 +1,46 @@
 /**
  * Odba container's API interface.
+ *
+ * @deprecated API contracts have moved to files under src/contract.
  */
 
-import { APIDefine, CurrentMap } from "../types";
-import { ContentValueMapInput, DataId, GeoProperties } from "../types-common/common-types";
-
-type CommonParam = {
-    currentMap: CurrentMap;
-}
-
-export const OdbaUpdateDataAPI = {
-    uri: 'update-data',
-    method: 'post',
-    resultType: 'json',
-} as APIDefine<OdbaUpdateDataParam, DataId>;
-
-export type OdbaUpdateDataParam = CommonParam & {
-    target: {
-        type: 'dataId',
-        id: DataId;
-    } | {
-        type: 'originalId',
-        originalId: string;
-    };
-    item?: {
-        geometry: GeoJSON.Geometry;
-        geoProperties: GeoProperties;
-    } | null;   // nullの場合、item削除
-    contents?: ContentValueMapInput;
-}
-
-export const OdbaRemoveDataAPI = {
-    uri: 'remove-data',
-    method: 'post',
-    resultType: 'json',
-} as APIDefine<OdbaRemoveDataParam, boolean>;
-
-export type OdbaRemoveDataParam = CommonParam & {
-    id: DataId;
-}
-
-export const OdbaUnlinkDataAPI = {
-    uri: 'unlink-data',
-    method: 'post',
-    resultType: 'none',
-} as APIDefine<OdbaUnlinkDataParam, void>;
-
-export type OdbaUnlinkDataParam = CommonParam & {
-    id: DataId;
-    parent: DataId;
-    fieldKey: string;  // parentのこのフィールドからのリンクを解除する
-}
-
-/**
- * get uncached data
- * 指定のデータソースIDに関して、キャッシュDBに未登録のデータを取得する
- */
-export const OdbaGetUncachedDataAPI = {
-    uri: 'get-unpointdata',
-    method: 'post',
-    resultType: 'json',
-} as APIDefine<OdbaGetUncachedDataParam, OdbaGetUncachedDataResult>;
-
-export type OdbaGetUncachedDataParam = CommonParam & {
-    dataSourceId: string;
-    nextToken?: string;
-    keyword?: string;
-}
-export type OdbaGetUncachedDataResult = {
-    contents: {
-        originalId: string;
-        title: string;
-        overview?: string;
-        hasImage?: boolean;
-    }[],
-    nextToken?: string;
-};
-
-/**
- * link content to item
- */
-export const OdbaLinkDataAPI = {
-    uri:'link-data',
-    method: 'post',
-    resultType: 'none',
-} as APIDefine<OdbaLinkDataParam, void>;
-
-export type OdbaLinkDataParam = CommonParam & ({
-    type: 'dataId',
-    id: DataId;
-} | {
-    type: 'originalId',
-    originalId: string;
-}) & {
-    parent: DataId;
-    fieldKey?: string;  // 指定されている場合、ここで指定したフィールドにリンク追加する。未指定の場合は、追加可能なフィールドにリンク追加する。
-}
-
-export const OdbaGetImageUrlAPI = {
-    uri: 'get-imageurl',
-    method: 'post',
-    resultType: 'string',
-} as APIDefine<OdbaGetImageUrlParam, string|undefined>;
-export type OdbaGetImageUrlParam = CommonParam & {
-    id: DataId;
-}
-
-export const OdbaGetLinkableContentsAPI = {
-    uri: 'get-linkable-contents',
-    method: 'post',
-    resultType: 'json',
-} as APIDefine<CommonParam, OdbaGetLinkableContentsResult>;
-export type OdbaGetLinkableContentsResult = {
-    contents: {
-        datasourceId: string;
-        name: string;
-    }[];
-}
+export {
+    UpdateDataApi as OdbaUpdateDataAPI,
+    type UpdateDataRequest as OdbaUpdateDataParam,
+    type UpdateDataResponse as OdbaUpdateDataResponse,
+} from '../contract/update-data';
+export {
+    RemoveDataApi as OdbaRemoveDataAPI,
+    type RemoveDataRequest as OdbaRemoveDataParam,
+    type RemoveDataResponse as OdbaRemoveDataResponse,
+} from '../contract/remove-data';
+export {
+    UnlinkDataApi as OdbaUnlinkDataAPI,
+    type UnlinkDataRequest as OdbaUnlinkDataParam,
+    type UnlinkDataResponse as OdbaUnlinkDataResponse,
+} from '../contract/unlink-data';
+export {
+    GetUncachedDataApi as OdbaGetUncachedDataAPI,
+    type GetUncachedDataRequest as OdbaGetUncachedDataParam,
+    type GetUncachedDataResponse as OdbaGetUncachedDataResult,
+} from '../contract/get-uncached-data';
+export {
+    LinkDataApi as OdbaLinkDataAPI,
+    type LinkDataRequest as OdbaLinkDataParam,
+    type LinkDataResponse as OdbaLinkDataResponse,
+} from '../contract/link-data';
+export {
+    GetImageUrlApi as OdbaGetImageUrlAPI,
+    type GetImageUrlRequest as OdbaGetImageUrlParam,
+    type GetImageUrlResponse as OdbaGetImageUrlResponse,
+} from '../contract/get-image-url';
+export {
+    GetLinkableContentsApi as OdbaGetLinkableContentsAPI,
+    type GetLinkableContentsRequest as OdbaGetLinkableContentsParam,
+    type GetLinkableContentsResponse as OdbaGetLinkableContentsResult,
+} from '../contract/get-linkable-contents';
+export {
+    RegistDataApi as OdbaRegistDataAPI,
+    type RegistDataRequest as OdbaRegistDataParam,
+    type RegistDataResponse as OdbaRegistDataResponse,
+} from '../contract/regist-data';
