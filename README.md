@@ -1,4 +1,4 @@
-# 279map-backend-common
+# 279map-backend-api
 This is the common modules for backend.
 
 ```mermaid
@@ -14,8 +14,8 @@ flowchart LR
 		279map-backend-main
 
 		279map-backend-main <--> odba["279map-backend-odba"]
-		odba-."use".->279map-backend-common
-		279map-backend-main-."use".->279map-backend-common
+		odba-."use".->279map-backend-api
+		279map-backend-main-."use".->279map-backend-api
 
 		db -.read.-> 279map-backend-main
 		odba -.insert.-> db
@@ -23,7 +23,7 @@ flowchart LR
 	279map-core <--> 279map-backend-main
 	original-db[("Original DB")] <--> odba
 	
-	style 279map-backend-common fill:#faa, stroke:#f55
+	style 279map-backend-api fill:#faa, stroke:#f55
 ```
 
 ## Deploy

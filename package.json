@@ -1,7 +1,7 @@
 {
-  "name": "279map-backend-common",
+  "name": "279map-backend-api",
   "version": "0.53.1",
-  "description": "279map backend common modules",
+  "description": "279map backend api modules",
   "scripts": {
     "rollup": "rollup -c",
     "codegen": "rimraf ./src/types-common && ncp ../src/types-common ./src/types-common && graphql-codegen --config codegen.ts"
