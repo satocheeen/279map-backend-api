@@ -1,9 +1,10 @@
 import { Request, Response, Express } from 'express';
 import { Logger } from "log4js";
-import { OdbaGetImageUrlAPI, OdbaGetImageUrlParam, OdbaGetLinkableContentsAPI, OdbaGetLinkableContentsResult, OdbaGetUncachedDataAPI, OdbaLinkDataAPI, OdbaLinkDataParam, OdbaRegistDataAPI, OdbaRegistDataParam, OdbaRemoveDataAPI, OdbaRemoveDataParam, OdbaUnlinkDataAPI, OdbaUnlinkDataParam, OdbaUpdateDataAPI, OdbaUpdateDataParam } from "./dba-api-interface";
+import { OdbaGetImageUrlAPI, OdbaGetImageUrlParam, OdbaGetLinkableContentsAPI, OdbaGetLinkableContentsResult, OdbaGetUncachedDataAPI, OdbaLinkDataAPI, OdbaLinkDataParam, OdbaRemoveDataAPI, OdbaRemoveDataParam, OdbaUnlinkDataAPI, OdbaUnlinkDataParam, OdbaUpdateDataAPI, OdbaUpdateDataParam } from "./dba-api-interface";
 import OdbaInterface from "./OdbaInterface";
 import { APIDefine, CurrentMap } from "../types";
 import { DataId } from '../types-common/common-types';
+import { RegistDataApi, RegistDataRequest } from '../contract/regist-data';
 
 type OdbaAPIFuncParam<PARAM> = {
     param: PARAM;
@@ -18,8 +19,8 @@ export type OdbaAPICallDefine<PARAM, RESULT> = {
 export function initializeOdba(app: Express, odba: OdbaInterface, logger: Logger) {
     const apiList: OdbaAPICallDefine<any,any>[] = [
         {
-            define: OdbaRegistDataAPI,
-            func: async(param: OdbaAPIFuncParam<OdbaRegistDataParam>): Promise<DataId> => {
+            define: RegistDataApi,
+            func: async(param: OdbaAPIFuncParam<RegistDataRequest>): Promise<DataId> => {
                 return await odba.registData(param.param);
             }
         },

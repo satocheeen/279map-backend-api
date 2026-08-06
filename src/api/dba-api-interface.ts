@@ -9,25 +9,6 @@ type CommonParam = {
     currentMap: CurrentMap;
 }
 
-export const OdbaRegistDataAPI = {
-    uri: 'regist-data',
-    method: 'post',
-    resultType: 'string',
-} as APIDefine<OdbaRegistDataParam, DataId>;
-
-export type OdbaRegistDataParam = CommonParam & {
-    dataSourceId: string;   // 登録先データソース
-    item?: {
-        geometry: GeoJSON.Geometry;
-        geoProperties: GeoProperties;
-    };
-    contents?: ContentValueMapInput;
-    linkItems?: {
-        id: DataId;
-        fieldKey?: string;
-    }[];   // 既存のアイテムに紐づける場合に指定
-}
-
 export const OdbaUpdateDataAPI = {
     uri: 'update-data',
     method: 'post',

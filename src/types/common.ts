@@ -4,6 +4,9 @@ export type CurrentMap = {
     mapId: string;
     mapKind: MapKind;
 }
+export type CommonParam = {
+    currentMap: CurrentMap;
+}
 
 /**
  * API interface
