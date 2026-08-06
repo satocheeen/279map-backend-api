@@ -3,4 +3,3 @@ export { default as OdbaInterface, UpdateContentLinkCacheParam } from './OdbaInt
 export { BroadcastItemParam, callBroadcast} from './broadcast';
 export { callOdbaApi, registFile } from '../odba/http';
 export * from '../contract';
-export * from './dba-api-interface';
