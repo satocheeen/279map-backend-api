@@ -5,7 +5,7 @@ export const RegistDataApi = {
     uri: 'regist-data',
     method: 'post',
     resultType: 'string',
-} as APIDefine<RegistDataRequest, DataId>;
+} as APIDefine<RegistDataRequest, RegistDataResponse>;
 
 export type RegistDataRequest = CommonParam & {
     dataSourceId: string;   // 登録先データソース

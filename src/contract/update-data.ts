@@ -5,7 +5,7 @@ export const UpdateDataApi = {
     uri: 'update-data',
     method: 'post',
     resultType: 'json',
-} as APIDefine<UpdateDataRequest, DataId>;
+} as APIDefine<UpdateDataRequest, UpdateDataResponse>;
 
 export type UpdateDataRequest = CommonParam & {
     target: {
@@ -22,4 +22,4 @@ export type UpdateDataRequest = CommonParam & {
     contents?: ContentValueMapInput;
 }
 
-export type UpdateDataResponse = DataId;
+export type UpdateDataResponse = boolean;
