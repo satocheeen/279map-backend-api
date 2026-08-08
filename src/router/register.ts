@@ -1,7 +1,6 @@
 import { Express, Request, Response } from 'express';
 import { Logger } from 'log4js';
-import { APIDefine } from '../types';
-import { ApiParam, ApiResult, ApiFunc} from './types';
+import { APIDefine, ApiParam, ApiResult, ApiFunc } from '../types';
 
 import {
     RegistDataApi,
