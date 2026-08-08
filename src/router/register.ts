@@ -1,7 +1,3 @@
-import { Express, Request, Response } from 'express';
-import { Logger } from 'log4js';
-import { APIDefine, ApiParam, ApiResult, ApiFunc } from '../types';
-
 import {
     RegistDataApi,
     UpdateDataApi,
@@ -13,6 +9,22 @@ import {
     GetLinkableContentsApi,
 } from '../api';
 
+import { Express, Request, Response } from 'express';
+import { Logger } from 'log4js';
+
+import { APIDefine } from '../types';
+
+export type ApiParam<T> =
+    T extends APIDefine<infer PARAM, any> ? PARAM : never;
+
+export type ApiResult<T> =
+    T extends APIDefine<any, infer RESULT> ? RESULT : never;
+
+export type ApiFunc<T extends APIDefine<any, any>> = (
+    param: ApiParam<T>,
+    logger?: Logger,
+) => Promise<ApiResult<T>>;
+
 export function createApiRouter(
     app: Express,
     logger?: Logger,
@@ -21,7 +33,7 @@ export function createApiRouter(
         api: T,
         func: ApiFunc<T>,
     ) => {
-        const handler = async (
+        const execute = async (
             req: Request,
             res: Response,
         ) => {
@@ -34,14 +46,16 @@ export function createApiRouter(
 
                 logger?.info('[start] ' + api.uri, param);
 
-                const result = await func(param);
+                const result = await func(param, logger);
 
                 logger?.info('[end] ' + api.uri);
                 logger?.debug('result', result);
 
                 if (result === undefined) {
+                    // undefinedを返すと、main-serverが結果を受信できないため
                     res.send('complete');
                 } else if (typeof result === 'number') {
+                    // 数値をそのままsendするとstatusCodeとして扱われるため
                     res.send(String(result));
                 } else {
                     res.send(result);
@@ -53,9 +67,9 @@ export function createApiRouter(
         };
 
         if (api.method === 'post') {
-            app.post('/' + api.uri, handler);
+            app.post('/' + api.uri, execute);
         } else {
-            app.get('/' + api.uri, handler);
+            app.get('/' + api.uri, execute);
         }
     };
 
