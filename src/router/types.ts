@@ -1,17 +1,11 @@
-import { Request, Response } from "express";
-import { APIDefine } from "../types";
-
-export type ApiHandler<T extends APIDefine<any, any>> =
-  (
-    req: Request<unknown, T['result'], T['param']>,
-    res: Response<T['result']>
-  ) => void | Promise<void>;
+import { APIDefine } from '../types';
 
 export type ApiParam<T> =
-    T extends APIDefine<infer P, any> ? P : never;
+    T extends APIDefine<infer PARAM, any> ? PARAM : never;
 
 export type ApiResult<T> =
-    T extends APIDefine<any, infer R> ? R : never;
+    T extends APIDefine<any, infer RESULT> ? RESULT : never;
 
-export type ApiFunc<T extends APIDefine<any, any>> =
-    (param: ApiParam<T>) => Promise<ApiResult<T>>;
+export type ApiFunc<T extends APIDefine<any, any>> = (
+    param: ApiParam<T>
+) => Promise<ApiResult<T>>;
