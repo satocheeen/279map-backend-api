@@ -22,4 +22,4 @@ export type UpdateDataRequest = CommonParam & {
     contents?: ContentValueMapInput;
 }
 
-export type UpdateDataResponse = boolean;
+export type UpdateDataResponse = DataId;
