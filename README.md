@@ -1,41 +1,40 @@
 # 279map-backend-api
-This is the common modules for backend.
+
+279map-backend-api is a common module shared by `backend-main` and
+`backend-odba`.
+
+It defines the API contracts used for communication between the two
+backend modules and provides common utilities for implementing those APIs.
+
+The API contracts include:
+
+- API endpoint URI
+- HTTP method
+- Request parameter type
+- Response type
+
+Both `backend-main` and `backend-odba` use the same API definitions,
+allowing the communication contract to be managed in a single place.
 
 ```mermaid
 flowchart LR
 	subgraph frontend
-		subgraph 279map-frontend
-			279map-core
-		end
+    core
 	end
 
 	subgraph backend
-		db[("279map-db")]
-		279map-backend-main
+		db[("cache db")]
+		backend-main
 
-		279map-backend-main <--> odba["279map-backend-odba"]
-		odba-."use".->279map-backend-api
-		279map-backend-main-."use".->279map-backend-api
+		backend-main <--> odba["backend-odba"]
+		odba-."use".->backend-api
+		backend-main-."use".->backend-api
 
-		db -.read.-> 279map-backend-main
+		db -.read.-> backend-main
 		odba -.insert.-> db
 	end
-	279map-core <--> 279map-backend-main
+	core <--> backend-main
 	original-db[("Original DB")] <--> odba
-	
-	style 279map-backend-api fill:#faa, stroke:#f55
-```
 
-## Deploy
-1. update version.
-	```shell
-	npm version patch
-	```
-2. build
-	```shell
-	npm run rollup
-	```
-3. publish
-	```shell
-	npm publish ./
-	```
+	style backend-api fill:#faa, stroke:#f55
+```

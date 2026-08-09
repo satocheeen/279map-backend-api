@@ -1,8 +1,12 @@
+import { Logger } from "log4js";
 import { MapKind } from "../types-common/common-types";
 
 export type CurrentMap = {
     mapId: string;
     mapKind: MapKind;
+}
+export type CommonParam = {
+    currentMap: CurrentMap;
 }
 
 /**
@@ -15,3 +19,14 @@ export type APIDefine<PARAM, RESULT> = {
     param: PARAM;
     result: RESULT;
 }
+
+export type ApiParam<T> =
+    T extends APIDefine<infer PARAM, any> ? PARAM : never;
+
+export type ApiResult<T> =
+    T extends APIDefine<any, infer RESULT> ? RESULT : never;
+
+export type ApiFunc<T extends APIDefine<any, any>> = (
+    param: ApiParam<T>,
+    logger?: Logger,
+) => Promise<ApiResult<T>>;
