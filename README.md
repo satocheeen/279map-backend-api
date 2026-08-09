@@ -16,6 +16,12 @@ The API contracts include:
 Both `backend-main` and `backend-odba` use the same API definitions,
 allowing the communication contract to be managed in a single place.
 
+279map-backend-api is maintained as an independent Git repository and is
+included in `backend-main` and `backend-odba` as a Git submodule.
+This allows the backend modules to share the same version of the API
+definitions while keeping their source code repositories independent.
+
+
 ```mermaid
 flowchart LR
 	subgraph frontend
