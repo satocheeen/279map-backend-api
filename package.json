@@ -3,22 +3,11 @@
   "version": "0.53.1",
   "description": "279map backend api modules",
   "scripts": {
-    "rollup": "rollup -c",
     "codegen": "rimraf ./src/types-common && ncp ../src/types-common ./src/types-common && graphql-codegen --config codegen.ts"
   },
   "keywords": [],
   "author": "Satocheeen (https://satocheeen.com)",
   "license": "MPL-2.0",
-  "repository": {
-    "type": "git",
-    "url": "https://codeberg.org/satocheeen/279map"
-  },
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "files": [
-    "dist"
-  ],
-  "types": "dist/index.d.ts",
   "devDependencies": {
     "@graphql-codegen/add": "^5.0.0",
     "@graphql-codegen/cli": "5.0.0",
